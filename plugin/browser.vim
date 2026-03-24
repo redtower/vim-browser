@@ -6,21 +6,33 @@ function! s:bw_open_url_win32(url)
   endif
   let url = escape(url, '%#')
   if !has('win95') && url !~ '[&!]'
-    silent! execute a:'!start /min cmd /c start ' . url
+    silent! execute '!start /min cmd /c start ' . url
   else
-    silent! execute a:"!start rundll32 url.dll,FileProtocolHandler " . url
+    silent! execute "!start rundll32 url.dll,FileProtocolHandler " . url
   endif
 endfunction
 
-function! Browser()
-    let line0 = getline(".")
-    let line = matchstr(line0, "http[^ ]*")
-    if line==""
-      let line = matchstr(line0, "ftp[^ ]*")
-    endif
-    if line==""
-      let line = matchstr(line0, "file[^ ]*")
-    endif
-    call s:bw_open_url_win32(line)
+function! s:bw_open_url_mac(url)
+  silent! execute '!open ' . shellescape(a:url)
 endfunction
-map <Leader>w :call Browser()<CR>
+
+function! s:bw_open_url_unix(url)
+  silent! execute '!xdg-open ' . shellescape(a:url)
+endfunction
+
+function! s:Browser()
+  let line0 = getline('.')
+  let line = matchstr(line0, '\(https\?\|ftp\|file\)://[^ ]*')
+  if line == ''
+    echo 'vim-browser: No URL found on current line.'
+    return
+  endif
+  if has('win32') || has('win64') || has('win95')
+    call s:bw_open_url_win32(line)
+  elseif has('mac') || has('macunix')
+    call s:bw_open_url_mac(line)
+  else
+    call s:bw_open_url_unix(line)
+  endif
+endfunction
+nnoremap <Leader>w :call <SID>Browser()<CR>
