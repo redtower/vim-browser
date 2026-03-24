@@ -6,7 +6,13 @@
 
 `<Leader>w` キーマップを使用して、現在のカーソル行から URL（`http`、`ftp`、`file` で始まる文字列）を取得し、ブラウザで開きます。
 
-> **注意 / Note:** 現在の実装は Windows 専用です。
+対応 OS / Supported OS:
+
+| OS | コマンド |
+|----|---------|
+| Windows | `start` |
+| macOS | `open` |
+| Linux | `xdg-open` |
 
 ## バージョン / Versions
 
@@ -52,7 +58,7 @@ call dein#add('redtower/vim-browser')
 " カーソルを以下のような行に置いて <Leader>w を押す
 https://www.example.com
 ftp://ftp.example.com/file.txt
-file:///C:/Users/user/document.html
+file:///home/user/document.html
 ```
 
 ---
@@ -121,7 +127,7 @@ browser.browser()   -- カーソル行の URL をブラウザで開く
 ## 注意事項 / Notes
 
 - VimScript 版と Lua 版は共存できます。ただし、両方をロードすると `<Leader>w` キーマップが重複して登録されるため、どちらか一方のみをロードしてください。
-- 現在の実装は Windows のみ対応しています（`start` コマンドを使用）。
+- Linux では `xdg-open` コマンドが必要です。ほとんどのデスクトップ環境には標準で含まれています。
 
 ## ライセンス / License
 
