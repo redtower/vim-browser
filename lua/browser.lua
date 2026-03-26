@@ -27,6 +27,6 @@ function M.browser()
   open_url(line)
 end
 
-vim.keymap.set('n', '<Leader>w', M.browser, { silent = true })
+vim.keymap.set('n', '<Leader>o', M.browser, { silent = true })
 
 return M
