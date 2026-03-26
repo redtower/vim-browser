@@ -31,4 +31,4 @@ function! Browser()
     endif
     call s:bw_open_url(line)
 endfunction
-map <Leader>w :call Browser()<CR>
+map <Leader>o :call Browser()<CR>
